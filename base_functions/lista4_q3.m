@@ -1,26 +1,29 @@
 clear
-wc1 = 0.3*pi;
-wc2 = 0.4*pi;
-wc3 = 0.5*pi;
-wc4 = 0.6*pi;
-%tr_width = wc2 - wc1;
-As = 50;
-Rp = 0.5;
-%M = ceil(6.6*pi/tr_width);
-M = 120;
-hd = ideal_lp(pi,M)+ideal_lp(wc3,M) - ideal_lp(wc4,M);
-hd = hd + ideal_lp(wc1,M) - ideal_lp(wc2,M);
+wc1 = pi/6;
+M = 19;
 n = [0:(M-1)];
-
+hd = ideal_lp(wc1,M);
+w_rect = (rectwin(M))';
+w_bar = (bartlett(M))';
+w_hann = (hanning(M))';
 w_ham = (hamming(M))';
-h = hd.*w_ham;
+w_bla = (blackman(M))';
+
+h_rect = hd.*w_rect;
+h_bar = hd.*w_bar;
+h_hann = hd.*w_hann;
+h_ham = hd.*w_ham;
+h_bla = hd.*w_bla;
+
+%%O da vez
+h = h_bla;
 
 [db,mag,pha,w] = freqz_m(h,[1]);
 
 subplot(2,2,1);
 stem(n,hd); title('Resposta ao impulso Ideal');
 axis([0 M-1 -0.4 0.5]); xlabel('n'); ylabel('hd[n]');
-subplot(2,2,2); stem(n,w_ham); title('janela de __');
+subplot(2,2,2); stem(n,w_ham); title('janela de X');
 axis([0 M-1 0 1.1]); xlabel('n'); ylabel('w[n]');
 subplot(2,2,3); stem(n,h); title('Resposta ao Impulso Atual');
 axis([0 M-1 -0.4 0.5]); xlabel('n'); ylabel('h[n]');
