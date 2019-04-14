@@ -17,30 +17,96 @@ clc;
 close all;
 clear all;
 
-rp = 0.15; %passband ripple
-rs = 60; %stopband ripple
-wp = 1500; %passband freq
-ws = 3000; %stopband freq
-fs = 7000; %sampling freq
+%Initial
+wp = 0.2*pi;
+ws = 0.3*pi;
 
-w1 = (2*wp)/fs;
-w2 = 2*ws/fs;
+%Epslon and A
+epslon = sqrt(1/0.89125 - 1);
+A = sqrt(1/0.17783);
 
-[n,wn]=buttord(w1,w2,rp,rs,'s');
-[z,p,k] = butter(n,wn);
-[b,a] = zp2tf(z,p,k);
-[b,a] = butter(n,wn,'s');
+%From there we calculate Rp and As
+Rp = -10*log10(1/(1+epslon.^2));
+As = -10*log10(1/A.^2);
 
-w = 0:0.1:pi;
-[h,om] = freqs(b,a,w);
-m=20*log10(abs(h));
-an=angle(h);
-subplot(2,1,1); plot(om/pi,m);
-ylabel('Gain in dB');
-subplot(2,1,2); plot(om/pi,an);
-xlabel('Normalised frequency');
-ylabel('Phase in radians');
+%Finally we can go for N, wc_wp and wc_ws
+N = ceil((log10((10^(Rp/10)-1)/(10^(As/10)-1)))/(2*log10(wp/ws)));
+wc_wp = wp/nthroot((10.^(Rp/10))-1 , 2*N);
+wc_ws = ws/nthroot((10.^(As/10))-1 , 2*N);
 
+%We choose a value between wc_ws and wc_wp
+wc_real = 0.5;
+wmax = pi;
 
+%TODO
+%a= [-4 0 1];
+%b = roots(a);
+%zplane(b);
 
+%My Buttap
+[b,a]=u_buttap(N,wc_real);
+%Bilinear Transform
+%[b,a] = bilinear(b,a,1)
+
+%Book buttap
+%[b,a] = afd_butt(wp,ws,Rp,As);
+%Resposta na frequencia
+[db,mag,pha,w] = freqs_m(b,a,wmax);
+%Resposta ao impulso
+[ha,x,t] = impulse(b,a);
+
+figure(2)
+subplot(2,2,1); 
+plot(w/pi,mag); 
+title('Magnitude Absoluta'); grid
+xlabel('Frequencia Analógica em unidades pi'); 
+ylabel('|H|');
+
+subplot(2,2,2); 
+plot(w/pi,db); 
+title('Magnitude em dB'); grid
+xlabel('Frequencia Analógica em unidades pi'); 
+ylabel('Decibeis');
+
+subplot(2,2,3); 
+plot(w/pi,pha); 
+title('Phase Response'); grid
+xlabel('Frequencia Analógica em unidades pi'); 
+ylabel('Radianos');
+
+subplot(2,2,4); 
+plot(t,ha); 
+title('Resposta ao Impulso'); grid
+xlabel('Tempo em segundos'); 
+ylabel('Ha(t)');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[b,a] = bilinear(b,a,1)
+[db,mag,pha,w] = freqs_m(b,a,wmax);
+[ha,x,t] = impulse(b,a);
+
+figure(3)
+subplot(2,2,1); 
+plot(w/pi,mag); 
+title('Magnitude Absoluta'); grid
+xlabel('Frequencia Analógica em unidades pi'); 
+ylabel('|H|');
+
+subplot(2,2,2); 
+plot(w/pi,db); 
+title('Magnitude em dB'); grid
+xlabel('Frequencia Analógica em unidades pi'); 
+ylabel('Decibeis');
+
+subplot(2,2,3); 
+plot(w/pi,pha); 
+title('Phase Response'); grid
+xlabel('Frequencia Analógica em unidades pi'); 
+ylabel('Radianos');
+
+subplot(2,2,4); 
+plot(t,ha); 
+title('Resposta ao Impulso'); grid
+xlabel('Tempo em segundos'); 
+ylabel('Ha(t)');
 
