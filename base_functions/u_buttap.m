@@ -12,5 +12,6 @@ p = p*omegac;
 k = k*omegac^N;
 B=real(poly(z));
 b0 = k;
+b0
 b = k*B;
 a = real(poly(p));

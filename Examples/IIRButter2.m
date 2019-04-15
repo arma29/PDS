@@ -13,6 +13,8 @@ Attn = 10 ^ (-As/20);
 
 % Analog filter design:
 [b,a] = afd_butt(Wp,Ws,Rp,As);
+b
+a
 %Resposta na frequencia
 [db,mag,pha,w] = freqs_m(b,a,0.5*pi);
 %Resposta ao impulso

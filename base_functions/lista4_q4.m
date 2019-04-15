@@ -22,20 +22,20 @@ wp = 0.2*pi;
 ws = 0.3*pi;
 
 %Epslon and A
-epslon = sqrt(1/0.89125 - 1);
+epslon = sqrt((1/0.89125) - 1);
 A = sqrt(1/0.17783);
 
 %From there we calculate Rp and As
-Rp = -10*log10(1/(1+epslon.^2));
-As = -10*log10(1/A.^2);
+Rp = -10*log10(1/(1+(epslon.^2)));
+As = -10*log10(1/(A.^2));
 
 %Finally we can go for N, wc_wp and wc_ws
 N = ceil((log10((10^(Rp/10)-1)/(10^(As/10)-1)))/(2*log10(wp/ws)));
-wc_wp = wp/nthroot((10.^(Rp/10))-1 , 2*N);
-wc_ws = ws/nthroot((10.^(As/10))-1 , 2*N);
+wc_wp = wp/(nthroot((10.^(Rp/10))-1 , 2*N));
+wc_ws = ws/(nthroot((10.^(As/10))-1 , 2*N));
 
 %We choose a value between wc_ws and wc_wp
-wc_real = 0.5;
+wc_real = 0.8;
 wmax = pi;
 
 %TODO
@@ -45,6 +45,7 @@ wmax = pi;
 
 %My Buttap
 [b,a]=u_buttap(N,wc_real);
+Htransfer = tf(b,a)
 %Bilinear Transform
 %[b,a] = bilinear(b,a,1)
 
@@ -80,8 +81,14 @@ title('Resposta ao Impulso'); grid
 xlabel('Tempo em segundos'); 
 ylabel('Ha(t)');
 
+suptitle('Filtro analógico Butterworth');
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Mesmo procedimento para achar o N
 [b,a] = bilinear(b,a,1)
+Htransfer2 = tf(b,a);
+
 [db,mag,pha,w] = freqs_m(b,a,wmax);
 [ha,x,t] = impulse(b,a);
 
@@ -109,4 +116,6 @@ plot(t,ha);
 title('Resposta ao Impulso'); grid
 xlabel('Tempo em segundos'); 
 ylabel('Ha(t)');
+
+suptitle('Filtro digital Butterworth');
 
