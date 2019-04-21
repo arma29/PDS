@@ -6,7 +6,7 @@ close all;
 wc1 = pi/6;
 
 %M escolhido, mesmo para todos, a fim de comparação
-M = 19;
+M = 120;
 n = [0:(M-1)];
 
 %A composição dos filtros é a mesma para todos
@@ -28,11 +28,7 @@ h_ham = hd.*w_ham;
 h_bla = hd.*w_bla;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%Um gráfico por vez e printa.
-%Modifica o h_bla para o que tu quer
 h = h_rect;
-
 [db,mag,pha,w] = freqz_m(h,[1]);
 
 figure(1)
@@ -43,8 +39,8 @@ subplot(2,2,2); stem(n,w_rect); title('Janela Retangular');
 axis([0 M-1 0 1.1]); xlabel('n'); ylabel('w[n]');
 subplot(2,2,3); stem(n,h); title('Resposta ao Impulso Atual');
 axis([0 M-1 -0.4 0.5]); xlabel('n'); ylabel('h[n]');
-subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid
-axis auto; xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
+subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid minor;
+axis ([0 1 -150 10]); xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
 suptitle('Respostas do filtro passa-baixa com janela Retangular')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 h = h_bar;
@@ -58,8 +54,8 @@ subplot(2,2,2); stem(n,w_bar); title('Janela de Bartlet');
 axis([0 M-1 0 1.1]); xlabel('n'); ylabel('w[n]');
 subplot(2,2,3); stem(n,h); title('Resposta ao Impulso Atual');
 axis([0 M-1 -0.4 0.5]); xlabel('n'); ylabel('h[n]');
-subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid
-axis auto; xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
+subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid minor
+axis ([0 1 -150 10]); xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
 suptitle('Respostas do filtro passa-baixa com janela de Bartlet')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,8 +70,8 @@ subplot(2,2,2); stem(n,w_ham); title('Janela de Hamming');
 axis([0 M-1 0 1.1]); xlabel('n'); ylabel('w[n]');
 subplot(2,2,3); stem(n,h); title('Resposta ao Impulso Atual');
 axis([0 M-1 -0.4 0.5]); xlabel('n'); ylabel('h[n]');
-subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid
-axis auto; xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
+subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid minor;
+axis ([0 1 -175 10]); xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
 suptitle('Respostas do filtro passa-baixa com janela de Hamming')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -90,8 +86,8 @@ subplot(2,2,2); stem(n,w_hann); title('Janela de Hanning');
 axis([0 M-1 0 1.1]); xlabel('n'); ylabel('w[n]');
 subplot(2,2,3); stem(n,h); title('Resposta ao Impulso Atual');
 axis([0 M-1 -0.4 0.5]); xlabel('n'); ylabel('h[n]');
-subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid
-axis auto; xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
+subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid minor;
+axis ([0 1 -150 10]); xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
 suptitle('Respostas do filtro passa-baixa com janela de Hanning')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,6 +102,6 @@ subplot(2,2,2); stem(n,w_bla); title('Janela de Blackman');
 axis([0 M-1 0 1.1]); xlabel('n'); ylabel('w[n]');
 subplot(2,2,3); stem(n,h); title('Resposta ao Impulso Atual');
 axis([0 M-1 -0.4 0.5]); xlabel('n'); ylabel('h[n]');
-subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid
-axis auto; xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
+subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid minor;
+axis ([0 1 -150 10]); xlabel('Frequencia em pi unidades'); ylabel('Decibeis');
 suptitle('Respostas do filtro passa-baixa com janela de Blackman')

@@ -7,6 +7,7 @@ function[b,a] = u_buttap(N, omegac)
 
 figure(1)
 zplane(p,z);
+suptitle('Pólos do semi plano esquerdo - Causal e Estável');
 
 p = p*omegac;
 k = k*omegac^N;

@@ -1,56 +1,32 @@
-%{
-Lista 4 - Q3
-ButterWorth
--1. Achar valores de N e estimar OmegaC.
-1. Achar função de mag quadrática, em função de s
-2. Achar polos (b = roots(a))
-3. Selecionar polos do semiplano esquerdo
-4. Achar o ganho unitario, quando s no denominador = 0
-5. Aplicar u_buttap
-6. aplicar bilinear no retorno de buttap, 
-especificando o T(T é a partir da frequencia
-da banda de corte (ws) T = 1/f)
-
-Eg.
-%}
 clc;
 close all;
 clear all;
 
-%Initial
+%Frequencias
 wp = 0.2*pi;
 ws = 0.3*pi;
 
-%Epslon and A
+%Epslon e A
 epslon = sqrt((1/0.89125) - 1);
 A = sqrt(1/0.17783);
 
-%From there we calculate Rp and As
+%A partir dai temos Rp e As
 Rp = -10*log10(1/(1+(epslon.^2)));
 As = -10*log10(1/(A.^2));
 
-%Finally we can go for N, wc_wp and wc_ws
+%Calculamos N, wc para wp e wc para ws
 N = ceil((log10((10^(Rp/10)-1)/(10^(As/10)-1)))/(2*log10(wp/ws)));
 wc_wp = wp/(nthroot((10.^(Rp/10))-1 , 2*N));
 wc_ws = ws/(nthroot((10.^(As/10))-1 , 2*N));
 
-%We choose a value between wc_ws and wc_wp
+%Escolhemos um valor entre os dois
 wc_real = 0.8;
 wmax = pi;
-
-%TODO
-%a= [-4 0 1];
-%b = roots(a);
-%zplane(b);
 
 %My Buttap
 [b,a]=u_buttap(N,wc_real);
 Htransfer = tf(b,a)
-%Bilinear Transform
-%[b,a] = bilinear(b,a,1)
 
-%Book buttap
-%[b,a] = afd_butt(wp,ws,Rp,As);
 %Resposta na frequencia
 [db,mag,pha,w] = freqs_m(b,a,wmax);
 %Resposta ao impulso
@@ -71,7 +47,7 @@ ylabel('Decibeis');
 
 subplot(2,2,3); 
 plot(w/pi,pha); 
-title('Phase Response'); grid
+title('Resposta de Fase'); grid
 xlabel('Frequencia Analógica em unidades pi'); 
 ylabel('Radianos');
 
@@ -85,7 +61,7 @@ suptitle('Filtro analógico Butterworth');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Mesmo procedimento para achar o N
+%Transformada Bilinear
 [b,a] = bilinear(b,a,1)
 Htransfer2 = tf(b,a);
 
@@ -107,7 +83,7 @@ ylabel('Decibeis');
 
 subplot(2,2,3); 
 plot(w/pi,pha); 
-title('Phase Response'); grid
+title('Resposta de Fase'); grid
 xlabel('Frequencia Analógica em unidades pi'); 
 ylabel('Radianos');
 

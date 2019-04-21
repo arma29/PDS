@@ -36,6 +36,6 @@ subplot(2,2,2); stem(n,w_ham); title('Janela de Hamming');
 axis([0 M-1 0 1.1]); xlabel('n'); ylabel('w[n]');
 subplot(2,2,3); stem(n,h); title('Resposta ao Impulso Atual');
 axis([0 M-1 -0.4 0.5]); xlabel('n'); ylabel('h[n]');
-subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid 
-axis auto; xlabel('Frequencia em unidades pi'); ylabel('Decibeis');
+subplot(2,2,4); plot(w/pi,db); title('Magnitude em dB'); grid minor;
+axis ([0 1 -150 10]); xlabel('Frequencia em unidades pi'); ylabel('Decibeis');
 suptitle('Respostas do filtro passa-baixa com janela de Hamming');
