@@ -46,11 +46,6 @@ suptitle('DFT w(n)')
 
 %e) Spec
 figure (4)
-%specgram(a,nfft,Fs,window,noverlap)
-%192 - sobreposição
-%256 - janela
-%1024 - nfft - tamanho do FFT que o specgrama usa.
-%
 [B,f,t] = specgram(w,1024,fs,256,192);
 % calculate amplitude 50dB down from maximum
 bmin=max(max(abs(B)))/300;
@@ -58,4 +53,6 @@ bmin=max(max(abs(B)))/300;
 imagesc(t,f,20*log10(max(abs(B),bmin)/bmin));
 % label plot
 axis xy; xlabel('Time (s)'); ylabel('Frequency (Hz)');
-colormap(jet); 
+colormap(jet);
+
+
