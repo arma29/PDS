@@ -8,14 +8,14 @@ close all;
 % um sinal x2[n] = x[n] + 0.5x[n – D]. Considere, por exemplo, D = 500 amostras para ter uma melhor
 % percepção do eco. 
 
-D = 500;
+D = 2500;
+alpha = 0.5
 
 %Read audio file
 [y,Fs] = audioread('sp04.wav');
-len_y = length(y);
 
-%Generate Eco
-for n = 1:len_y
+%Generate Eco 1
+for n = 1:length(y)
     %Need transpose the signal
     if(n > D)
         y2(n,1) = y(n) + 0.5*(y(n-D)); 
@@ -25,16 +25,19 @@ for n = 1:len_y
     
 end
 
-%y2 = y2';
 
-figure(1)
-plot(y); grid on; title('Sinal Original');
-figure(2)
-plot(y2); grid on; title('Sinal com Eco');
+%Alpha vector
+vec_a = [0.5 0.9 0.25];
+vec_a_neg = [-0.5 -0.9 -0.25]
 
-%Play the audio
-sound(y2,Fs);
+x = add_echo(y,alpha,D);
+% sound(x,Fs); pause(3);
+% TODO: asdsd
+w = remove_echo(x,vec_a(1),D);
+% sound(w,Fs);
 
+plot_wavs(y,alpha,D,1);
+plot_diff_wavs(x,vec_a,D,2);
+plot_diff_wavs(x,vec_a_neg,D,3);
 
-%sound(y,Fs);
 

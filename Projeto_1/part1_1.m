@@ -35,6 +35,7 @@ h =hd.*w_ham;
 [db, mag, pha, w] = freqz_m(h, [1]); 
 
 
+% TODO: Break the code plots into functions
 figure(1)
 subplot(2,2,1);
 stem(n,hd); title('Resposta ao impulso Ideal');
