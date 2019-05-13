@@ -8,6 +8,8 @@ close all;
 % um sinal x2[n] = x[n] + 0.5x[n – D]. Considere, por exemplo, D = 500 amostras para ter uma melhor
 % percepção do eco. 
 
+% TODO: Graphical Comments and compare.
+
 D = 2500;
 alpha = 0.5
 
@@ -32,7 +34,6 @@ vec_a_neg = [-0.5 -0.9 -0.25]
 
 x = add_echo(y,alpha,D);
 % sound(x,Fs); pause(3);
-% TODO: asdsd
 w = remove_echo(x,vec_a(1),D);
 % sound(w,Fs);
 
