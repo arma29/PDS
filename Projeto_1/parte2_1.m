@@ -10,6 +10,16 @@ close all;
 Lena = imread('lena_rings.bmp');
 orig_Lena = imread('lena.bmp');
 figure(1)
-image(Lena);
+imshow(Lena);
+
+% figure(2)
+% imshow(orig_Lena);
+
+% kmedian = medfilt2(Lena);
+% figure(2)
+% imshow(kmedian);
+
+h = fspecial('laplacian');
+lena2 = filter2(h, Lena);
 figure(2)
-image(orig_Lena);
+imshow(lena2);
