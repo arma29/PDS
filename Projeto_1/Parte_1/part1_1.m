@@ -3,8 +3,9 @@ clear all;
 close all;
 %Utilizando janelamento, crie um filtro FIR passa alta 
 %com as seguintes especificações
-%Para uma dadaespecificação de filtro, escolha um filtro de
+%Para uma dada especificação de filtro, escolha um filtro de
 %comprimento M e uma função janela w[n]
+
 %para a mais estreita largura do lóbulo
 %principal e a menor atenuação nos lóbulos
 %laterais possível -> Hamming x Blackman 
