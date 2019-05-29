@@ -15,7 +15,7 @@ for i = 1:size(singleFrame,1)
         %Matriz RGB
         for k = 1:3
             if(abs(singleFrame(i,j,k) - nextFrame(i,j,k)) > threshold)
-                currFrame(i,j,k) = singleFrame(i,j,k) - nextFrame(i,j,k);
+                currFrame(i,j,k) = singleFrame(i,j,k);
             else
                 currFrame(i,j,k) = 0;
             end

@@ -10,11 +10,22 @@ close all;
 %parameters
 vobj = VideoReader('video1.avi');
 numFrames = vobj.NumberOfFrames;
-threshold = 25;
+threshold = 100;
 
-%newvideo
-noback_video = video_back(vobj,numFrames,threshold);  
+%Definindo e abrindo arquivo
+writer = VideoWriter(['C:\Users\Arnaldo\Documents\PDS\Projeto_1\Parte_3\Util\video_th' num2str(threshold) '.avi'],'Uncompressed AVI');
+writer.FrameRate = vobj.FrameRate;
+open(writer);
+
+%Executando o algoritmo completo
+noback_video = video_back(vobj,numFrames,threshold);
+
+%Salvando e fechando o arquivo
+writeVideo(writer,noback_video);
+close(writer);
 
 %playing video with same frameraet
-frameRate = vobj.FrameRate;
-implay(noback_video,frameRate);
+% frameRate = vobj.FrameRate;
+% implay(noback_video,frameRate);
+
+
