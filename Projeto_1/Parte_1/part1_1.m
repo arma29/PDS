@@ -1,15 +1,18 @@
+% Parte 1 - Q1
+% Utilizando janelamento, crie um filtro FIR passa alta 
+% com as seguintes especificações [...]
+% Justifique todas as suas decisões de projeto. 
+
 clc;
 clear all;
 close all;
-%Utilizando janelamento, crie um filtro FIR passa alta 
-%com as seguintes especificações
+
 %Para uma dada especificação de filtro, escolha um filtro de
 %comprimento M e uma função janela w[n]
-
 %para a mais estreita largura do lóbulo
 %principal e a menor atenuação nos lóbulos
 %laterais possível -> Hamming x Blackman 
-%(Hamming é melhor, para da pra ter uma comparação.
+%Hamming é melhor, menos disperdício de banda.
 
 ws = 0.6*pi;
 wp = 0.75*pi;
@@ -29,8 +32,6 @@ hd = ideal_lp(pi,M_ham);
 hd = hd - ideal_lp(wc,M_ham);
 
 plot_filter(M_ham, hd, ws, wp, As, 'Hamming', 1);
-
-%TODO: Break the code plots into functions
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

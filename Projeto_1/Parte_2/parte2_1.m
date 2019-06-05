@@ -19,7 +19,15 @@ imshow(Lena);
 % figure(2)
 % imshow(kmedian);
 
-h = fspecial('laplacian');
-lena2 = filter2(h, Lena);
-figure(2)
-imshow(lena2);
+
+
+% h = fspecial('gaussian');
+% lena2 = filter2(h, Lena);
+% figure(2)
+% imshow(lena2);
+
+new_Lena = test_butter(Lena,11.4*pi,2);
+new_Lena = imadjust(new_Lena);
+
+
+figure(4),imshow(new_Lena);
