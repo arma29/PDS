@@ -15,7 +15,7 @@ imshow(Lena);
 % figure(2)
 % imshow(orig_Lena);
 
-% kmedian = medfilt2(Lena);
+new_Lena = medfilt2(Lena);
 % figure(2)
 % imshow(kmedian);
 
@@ -26,7 +26,7 @@ imshow(Lena);
 % figure(2)
 % imshow(lena2);
 
-new_Lena = test_butter(Lena,11.4*pi,2);
+new_Lena = test_butter(new_Lena,25,1);
 new_Lena = imadjust(new_Lena);
 
 

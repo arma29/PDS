@@ -22,8 +22,8 @@ figure(4), imhist(imfilt);
 [numPixels,binsLocation]= imhist(alumgnrs);
 [numPixelsFilt,binsLocationFilt] = imhist(imfilt);
 
-mean_before = mean(numPixels);
-std_before = std(numPixels);
+mean_before = mean(numPixelsFilt);
+std_before = std(numPixelsFilt);
 % 
 % count = 1;
 % new_numPixels = [];
@@ -46,7 +46,7 @@ std_before = std(numPixels);
 % out = regions_count(new_numPixels,150);
 
 % More useful
-out2 = percep_count(numPixelsFilt,4,150)
+out2 = percep_count(numPixelsFilt,8,150)
 
 
 
