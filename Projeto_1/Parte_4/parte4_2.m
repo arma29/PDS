@@ -75,14 +75,14 @@ subplot(2,1,2); plot(T2,out_f2); grid on; title('Filtered Signal');
 
 % IIR
 
-[b,a] = butter(5, band);
+[b,a] = butter(3, band);
 out_f3 = filter(b,a,teste_noisy);
 
 figure(4)
 subplot(2,1,1); plot(T2,teste); grid on; title('Original Signal');
 subplot(2,1,2); plot(T2,out_f3); grid on; title('Filtered Signal');
 
-[b,a] = cheby1(4,1,band);
+[b,a] = cheby1(3,1,band);
 out_f4 = filter(b,a,teste_noisy);
 
 figure(5)
