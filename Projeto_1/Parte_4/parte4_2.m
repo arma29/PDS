@@ -8,6 +8,8 @@
 %     considerando que você não tem a
 %     informação sobre o sinal ruidoso. 
 
+% Em geral, o IIR atinge 
+
 %Na prática, para uma frequência de
 % amostragem do sinal de 10 kHz, deve-se
 % utilizar uma janela da ordem de 100<N<200

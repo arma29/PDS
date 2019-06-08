@@ -3,6 +3,9 @@
 % um determinado momento, 
 % um carro passa por ela. Tente retirar o som do carro. 
 
+% Ideia de analisar parte dos subarrays
+% Retirar amplitude ou frequencia
+
 clc;
 clear all;
 close all;
