@@ -1,4 +1,4 @@
-function [w] = remove_echo(x,alpha,D)
+function [w,b] = remove_echo(x,alpha,D)
 %REMOVE_ECHO Summary of this function goes here
 %   Given a echoed signal x, parameters alpha and D
 %   return the original signal w

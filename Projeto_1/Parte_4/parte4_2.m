@@ -1,3 +1,4 @@
+%% Parte 4 - Q2
 % Abra o arquivo teste_de_som.wav: 
 % 1) verifique sua taxa de amostragem; 
 % 2) multiplique o sinal original por 30 adicione 
@@ -8,87 +9,89 @@
 %     considerando que você não tem a
 %     informação sobre o sinal ruidoso. 
 
-% Em geral, o IIR atinge 
+clc;
+clear all;
+close all;
+
+% Em geral, o IIR atinge bons resultados com uma ordem menor
+% em relação ao FIR.
 
 %Na prática, para uma frequência de
 % amostragem do sinal de 10 kHz, deve-se
 % utilizar uma janela da ordem de 100<N<200
 % amostras (10 ms < t < 20 ms)
-clc;
-clear all;
-close all;
-
-%Parte1) Fs - sample rate
+%% Parte1) Fs - sample rate
 [teste,Fs] = audioread('teste_de_som.wav');
 audio_duration = length(teste)/Fs;
 % sound(teste,Fs);
-%-------------------------------------------------------------------------%
-%Parte2) multiply by 30
+%% Parte2) Multiplicar por 30 e adicionar o lá sustenido
 teste_30 = 30*teste;
-% sound(teste_30,Fs);
-
-%Sinuidal Noise
+% Ruído senoidal a partir do lá sustenido
 f = 466.16;
-T = (linspace(0,audio_duration-1/Fs,length(teste)))'; %vencedor ou
-T2 = ((0:length(teste)-1)/Fs)';
+% Vetor de duração. 3 segundos / Fs
+T = (linspace(0,audio_duration-1/Fs,length(teste)))';
+%Ruído do lá sustenido criado
 noise = sin(2*pi*f*T);
 % sound(noise);
-
-% T2 = (0:(audio_duration*Fs)-1)'; %não assim
-% noise2 = sin(2*pi*f*T2);
-% sound(noise);
-
-% figure(1); plot(T,noise);
-% figure(2); plot(T2,noise2);
-
-
-% ver = rand(1,length(teste))';
-
+%Sinal modificado
 teste_noisy = teste_30 + noise(1:length(noise));
 % sound(teste_noisy,Fs);
 
+% Plot signals
+figure(1)
+subplot(2,1,1); plot(teste); grid on; title('Original Signal');
+subplot(2,1,2); plot(teste_noisy); grid on; title('Noisy Signal');
 
-% %plot signals
-% figure(1)
-% subplot(2,1,1); plot(teste); grid on; title('Original Signal');
-% subplot(2,1,2); plot(teste_noisy); grid on; title('Noisy Signal');
+%% Parte3) Filter FIR
+% a frequência de corte normalizada será a frequência dividida
+% pela frequência de nyquist, que é o Fs/2.
+% Logo bons resultados ficaram próximos da frequência de corte 0.11
+% O melhor encontrado foi f/Fs/4 -> 0.22
+wc = 0.22;
+order = 34;
 
+% FIR com janela de Hamming, ordem 34, frequencia de corte 0.22, passa
+% alta e janela 35.
+f1 = fir1(order , wc, 'high', hamming(order+1));
+figure(2), freqz(f1,1); suptitle('Hamming');
 
-%-------------------------------------------------------------------------%
-%Parte3) Filter FIR
-wc = 2*0.117;
-band = [0.8/3 1.8/3];
-
-f1 = fir1(34 , wc, 'high', chebwin(35,40));
 out_f1 = filter(f1,1,teste_noisy);
-
-figure(2)
-subplot(2,1,1); plot(T2,teste); grid on; title('Original Signal');
-subplot(2,1,2); plot(T2,out_f1); grid on; title('Filtered Signal');
-
 % sound(out_f1,Fs);
 
-f2 = fir1(40,band);
+% FIR com janela de Blackman, ordem 34, frequencia de corte 0.22, passa
+% alta e janela 35.
+f2 = fir1(order, wc, 'high',blackman(order+1));
+figure(3), freqz(f2,1); suptitle('Blackman');
+
 out_f2 = filter(f2,1,teste_noisy);
-
-figure(3)
-subplot(2,1,1); plot(T2,teste); grid on; title('Original Signal');
-subplot(2,1,2); plot(T2,out_f2); grid on; title('Filtered Signal');
-
-% IIR
-
-[b,a] = butter(3, band);
-out_f3 = filter(b,a,teste_noisy);
+% sound(out_f2,Fs);
 
 figure(4)
-subplot(2,1,1); plot(T2,teste); grid on; title('Original Signal');
-subplot(2,1,2); plot(T2,out_f3); grid on; title('Filtered Signal');
+subplot(2,1,1); plot(T,out_f1); grid on; title('Hamming FIR');
+subplot(2,1,2); plot(T,out_f2); grid on; title('Blackman FIR');
+% audiowrite('C:\Users\Arnaldo\Documents\PDS\Projeto_1\Parte_4\Util\test_fir_ham.wav', out_f1,Fs);
+% audiowrite('C:\Users\Arnaldo\Documents\PDS\Projeto_1\Parte_4\Util\teste_fir_bla.wav', out_f2,Fs);
 
-[b,a] = cheby1(3,1,band);
+%% IIR
+order_iir = 7;
+% Butterworth de ordem 7, tipo passa alta e frequencia de corte 0.22
+[b,a] = butter(order_iir, wc, 'high');
+figure(5), freqz(b,a); suptitle('Butteworth');
+
+out_f3 = filter(b,a,teste_noisy);
+% sound(out_f3,Fs);
+
+% Chebyshev de ordem 7, tipo passa alta e frequencia de corte 0.22
+[b,a] = cheby1(order_iir,1,wc, 'high');
+figure(6), freqz(b,a); suptitle('Chebyshev');
+
 out_f4 = filter(b,a,teste_noisy);
+sound(out_f4,Fs);
 
-figure(5)
-subplot(2,1,1); plot(T2,teste); grid on; title('Original Signal');
-subplot(2,1,2); plot(T2,out_f4); grid on; title('Filtered Signal');
+figure(7)
+subplot(2,1,1); plot(T,out_f3); grid on; title('Butterworth IIR');
+subplot(2,1,2); plot(T,out_f4); grid on; title('Chebyshev IIR');
+% audiowrite('C:\Users\Arnaldo\Documents\PDS\Projeto_1\Parte_4\Util\test_iir_but.wav', out_f3,Fs);
+% audiowrite('C:\Users\Arnaldo\Documents\PDS\Projeto_1\Parte_4\Util\teste_iir_che.wav', out_f3,Fs);
 
 

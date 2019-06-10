@@ -9,7 +9,7 @@ if(D >= length(y))
 end
 
 %In this case, b will be used as numerator
-b = [1, zeros(1,D), alpha]
+b = [1, zeros(1,D), alpha];
 x = filter(b,1,y);
 end
 

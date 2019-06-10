@@ -5,9 +5,7 @@ function [ret] = test_butter(im,d,n)
 %   ordem do filtro n
 %   retorna a imagem apos um FPB sobre ela
 
-
 %   Low pass butterworth
-
 lp=butterlp(im,d,n);
 
 %aplicando a transformada de fourier
@@ -21,7 +19,7 @@ aflp=af.*lp;
 %inversa do filtro
 aflpi=ifft2(aflp);
 
-%Mostra a imagem
+%Auxiliar para Mostrar a imagem
 ret = ifftshow(aflpi);
 end
 
